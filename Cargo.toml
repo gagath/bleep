@@ -2,6 +2,13 @@
 name = "bleep"
 version = "0.1.0"
 edition = "2018"
+authors = ["Agathe Porte <microjoe@microjoe.org>"]
+license = "GPL-3.0"
+description = "Modern beep command replacement."
+readme = "README.md"
+keywords = ["multimedia", "audio", "beep"]
+categories = ["multimedia", "multimedia::audio"]
+repository = "https://github.com/MicroJoe/bleep"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

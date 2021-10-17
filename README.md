@@ -51,3 +51,11 @@ Running bleep using the remote server:
 ```
 $ bleep run --remote localhost:12345 my-long-command
 ```
+
+## License
+
+Licensed under the [GNU GENERAL PUBLIC LICENSE, version 3.0](LICENSE-GPL-3.0).
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in this project by you shall be licensed as above, without any
+additional terms or conditions.
