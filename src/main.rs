@@ -19,12 +19,24 @@ enum SubCommand {
 
     /// Play a builtin sound
     Play(Play),
+
+    /// Loop a builtin sound
+    Loop(Loop),
 }
 
 #[derive(Clap)]
 struct Play {
     /// Name of the builtin sound to play
     name: String,
+}
+
+#[derive(Clap)]
+struct Loop {
+    /// Name of the builtin sound to play
+    name: String,
+
+    /// Number of times to repeat the sound
+    count: Option<u32>,
 }
 
 fn main() {
@@ -38,6 +50,17 @@ fn main() {
         }
         SubCommand::Play(play) => {
             audio::play_builtin(&play.name).unwrap();
+        }
+        SubCommand::Loop(a) => {
+            if let Some(c) = a.count {
+                for _ in 0..c {
+                    audio::play_builtin(&a.name).unwrap();
+                }
+            } else {
+                loop {
+                    audio::play_builtin(&a.name).unwrap();
+                }
+            }
         }
         SubCommand::Run => {}
     }
