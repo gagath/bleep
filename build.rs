@@ -17,7 +17,7 @@ fn parse_dir(
 
 fn parse_dir_rec(
     map: &mut phf_codegen::Map<String>,
-    basepath: &Path,
+    _basepath: &Path,
     path: &Path,
 ) -> Result<(), Box<dyn std::error::Error>> {
     for f in fs::read_dir(path)? {
@@ -25,7 +25,7 @@ fn parse_dir_rec(
 
         let ft = f.file_type()?;
         if ft.is_dir() {
-            parse_dir_rec(map, basepath, f.path().as_path())?;
+            parse_dir_rec(map, _basepath, f.path().as_path())?;
             continue;
         } else if !ft.is_file() && !ft.is_symlink() {
             println!("cargo:warning=file {:?} was not recognized", &f);
@@ -57,7 +57,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_dir_path = Path::new(&out_dir);
 
     let dest_path = out_dir_path.join("builtins.rs");
-    let mut file = File::create(&dest_path)?;
+    let mut file = File::create(dest_path)?;
 
     let mut map: phf_codegen::Map<String> = phf_codegen::Map::new();
 
