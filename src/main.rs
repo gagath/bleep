@@ -1,15 +1,15 @@
 mod audio;
 
-use clap::Clap;
+use clap::{Parser, Subcommand};
 
-#[derive(Clap)]
-#[clap(version = "0.1.0", author = "Agathe Porte <microjoe@microjoe.org>")]
+#[derive(Parser)]
+#[command(version = "0.1.0", author = "Agathe Porte <microjoe@microjoe.org>")]
 struct Opts {
-    #[clap(subcommand)]
+    #[command(subcommand)]
     subcmd: SubCommand,
 }
 
-#[derive(Clap)]
+#[derive(Subcommand)]
 enum SubCommand {
     /// List all builtin sounds
     List,
@@ -18,25 +18,19 @@ enum SubCommand {
     Run,
 
     /// Play a builtin sound
-    Play(Play),
+    Play {
+        /// Name of the builtin sound to play
+        name: String,
+    },
 
     /// Loop a builtin sound
-    Loop(Loop),
-}
+    Loop {
+        /// Name of the builtin sound to play
+        name: String,
 
-#[derive(Clap)]
-struct Play {
-    /// Name of the builtin sound to play
-    name: String,
-}
-
-#[derive(Clap)]
-struct Loop {
-    /// Name of the builtin sound to play
-    name: String,
-
-    /// Number of times to repeat the sound
-    count: Option<u32>,
+        /// Number of times to repeat the sound
+        count: Option<u32>,
+    },
 }
 
 fn main() {
@@ -48,17 +42,17 @@ fn main() {
                 println!("{}", e);
             }
         }
-        SubCommand::Play(play) => {
-            audio::play_builtin(&play.name).unwrap();
+        SubCommand::Play { name } => {
+            audio::play_builtin(&name).unwrap();
         }
-        SubCommand::Loop(a) => {
-            if let Some(c) = a.count {
+        SubCommand::Loop { name, count } => {
+            if let Some(c) = count {
                 for _ in 0..c {
-                    audio::play_builtin(&a.name).unwrap();
+                    audio::play_builtin(&name).unwrap();
                 }
             } else {
                 loop {
-                    audio::play_builtin(&a.name).unwrap();
+                    audio::play_builtin(&name).unwrap();
                 }
             }
         }
